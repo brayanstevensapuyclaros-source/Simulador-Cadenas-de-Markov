@@ -10,9 +10,29 @@ import SimulacionPage from './pages/SimulacionPage';
 import './styles/App.css';
 
 function App() {
-  const [estados, setEstados] = useState(['Sol', 'Lluvia']);
-  const [matriz, setMatriz] = useState([]);
+  // Cargar estados desde localStorage o usar por defecto
+  const [estados, setEstados] = useState(() => {
+    const saved = localStorage.getItem('markov_estados');
+    return saved ? JSON.parse(saved) : ['Sol', 'Lluvia'];
+  });
 
+  // Cargar matriz desde localStorage o inicializar vacía
+  const [matriz, setMatriz] = useState(() => {
+    const saved = localStorage.getItem('markov_matriz');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Guardar estados en localStorage cuando cambien
+  useEffect(() => {
+    localStorage.setItem('markov_estados', JSON.stringify(estados));
+  }, [estados]);
+
+  // Guardar matriz en localStorage cuando cambie
+  useEffect(() => {
+    localStorage.setItem('markov_matriz', JSON.stringify(matriz));
+  }, [matriz]);
+
+  // Sincronizar matriz con estados
   useEffect(() => {
     const n = estados.length;
     setMatriz(prevMatriz => {

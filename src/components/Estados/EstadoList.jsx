@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 
 const EstadoList = ({ estados, setEstados }) => {
   const [nuevoEstado, setNuevoEstado] = useState('');
@@ -20,25 +20,38 @@ const EstadoList = ({ estados, setEstados }) => {
   };
 
   return (
-    <div className='estado-list'>
-      <h3>Gestión de Estados</h3>
-      <div style={{ marginBottom: '10px' }}>
-        <input 
-          type='text' 
-          value={nuevoEstado} 
-          onChange={(e) => setNuevoEstado(e.target.value)} 
-          placeholder='Nombre del estado' 
+    <div className="estado-list-container">
+      <div className="add-estado-form">
+        <input
+          type="text"
+          className="estado-input"
+          value={nuevoEstado}
+          onChange={(e) => setNuevoEstado(e.target.value)}
+          placeholder="Ej: Soleado, Lluvia..."
         />
-        <button onClick={agregarEstado}>Agregar</button>
+        <button className="add-button" onClick={agregarEstado}>Agregar</button>
       </div>
-      <ul style={{ listStyle: 'none', padding: 0 }}>
+      
+      <div className="estados-grid-display">
         {estados.map((estado, index) => (
-          <li key={index} style={{ marginBottom: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #eee' }}>
-            {estado}
-            <button onClick={() => eliminarEstado(index)} style={{ backgroundColor: '#ff4d4d', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Eliminar</button>
-          </li>
+          <div key={index} className="estado-item-card">
+            <span className="estado-name">{estado}</span>
+            <button 
+              className="delete-button" 
+              onClick={() => eliminarEstado(index)}
+              aria-label={`Eliminar estado ${estado}`}
+            >
+              &times;
+            </button>
+          </div>
         ))}
-      </ul>
+      </div>
+      
+      {estados.length === 0 && (
+        <p style={{ color: "var(--text-muted)", textAlign: "center", marginTop: "20px" }}>
+          No hay estados definidos aún.
+        </p>
+      )}
     </div>
   );
 };

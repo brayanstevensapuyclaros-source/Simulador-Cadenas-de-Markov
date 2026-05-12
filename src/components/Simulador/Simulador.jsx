@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 
 const Simulador = ({ estados, matriz }) => {
   const [pasos, setPasos] = useState(10);
@@ -50,30 +50,47 @@ const Simulador = ({ estados, matriz }) => {
   };
 
   return (
-    <div className='simulador-container'>
-      <h3>Simulador de Cadena de Markov</h3>
-      <div style={{ marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <label>Número de pasos: </label>
-        <input 
-          type='number' 
-          value={pasos} 
-          onChange={(e) => setPasos(parseInt(e.target.value) || 0)} 
-          min='1' 
-          max='100'
-          style={{ width: '80px' }}
-        />
-        <button onClick={simular}>Ejecutar Simulación</button>
+    <div className="simulador-container section-card">
+      <h3 className="feature-title" style={{ color: "var(--secondary)" }}>Simulador de Motor</h3>
+      
+      <div className="simulation-controls">
+        <div className="input-group">
+          <label htmlFor="pasos">Pasos a simular:</label>
+          <input
+            id="pasos"
+            type="number"
+            value={pasos}
+            onChange={(e) => setPasos(parseInt(e.target.value) || 0)}
+            min="1"
+            max="100"
+            className="prob-input"
+            style={{ width: "100px !important" }}
+          />
+        </div>
+        <button className="cta-button" onClick={simular} style={{ minWidth: "200px", padding: "12px" }}>
+          Ejecutar Simulación
+        </button>
       </div>
 
-      {error && <p style={{ color: '#e74c3c', fontWeight: 'bold' }}>{error}</p>}
+      {error && (
+        <div className="error-message" style={{ marginTop: "20px" }}>
+          <span className="error-icon">❌</span>
+          {error}
+        </div>
+      )}
 
       {secuencia.length > 0 && (
-        <div style={{ marginTop: '20px' }}>
-          <h4>Resultado de la Secuencia:</h4>
-          <div className='resultado-box'>
-            {secuencia.join(' → ')}
+        <div style={{ marginTop: "30px" }}>
+          <h4 style={{ color: "var(--highlight)", marginBottom: "15px" }}>Secuencia Resultante:</h4>
+          <div className="resultado-box">
+            {secuencia.map((s, i) => (
+              <React.Fragment key={i}>
+                <span className="sec-state">{s}</span>
+                {i < secuencia.length - 1 && <span className="sec-arrow"> → </span>}
+              </React.Fragment>
+            ))}
           </div>
-          <p style={{ fontSize: '0.9em', marginTop: '10px', color: '#7f8c8d' }}>
+          <p className="note-text" style={{ marginTop: "15px" }}>
             <strong>Total de transiciones:</strong> {secuencia.length - 1}
           </p>
         </div>
